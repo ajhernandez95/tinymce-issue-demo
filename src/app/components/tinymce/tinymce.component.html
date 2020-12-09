@@ -1,0 +1,14 @@
+<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
+<nz-modal *ngIf="isVisible" [nzVisible]="true" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
+    <ng-container *ngIf="!inline; else inlineTemp">
+        <div>
+            <div id="{{editorId}}" [innerHTML]="safeContent" style="outline: none;"></div>
+        </div>
+    </ng-container>
+    
+    <ng-template #inlineTemp>
+        <div class="ant-input" style="height: auto;">
+            <div id="{{editorId}}" [innerHTML]="safeContent" style="outline: none;"></div>
+        </div>
+    </ng-template>
+</nz-modal>
