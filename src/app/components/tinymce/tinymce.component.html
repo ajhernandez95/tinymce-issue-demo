@@ -1,14 +1,33 @@
-<button nz-button [nzType]="'primary'" (click)="showModal()"><span>Show Modal</span></button>
-<nz-modal *ngIf="isVisible" [nzVisible]="true" nzTitle="The first Modal" (nzOnCancel)="handleCancel()" (nzOnOk)="handleOk()">
-    <ng-container *ngIf="!inline; else inlineTemp">
+<p>Refresh page before opening different modal to avoid init issues</p>
+<p>One issue is the fact that we can not use context menus or quickbars inside a modal for example links. If you try to highlight some text and add a link the quickbar breaks and if you try and use the toolbar the modal that pops up does not let us focus in on the inputs.</p>
+<p>Another issue is when a text editor is set to inline inside a modal the pop up toolbar disappears anytime you try to click on an option. Here in this quick demo the toolbar is thrown behind the modal which is not an issue in our actual code but has happened here.</p>
+
+<button nz-button [nzType]="'primary'" (click)="showModal1()"><span>Show Modal 1</span></button>
+<nz-modal *ngIf="isVisible1" [nzVisible]="true" nzTitle="The first Modal" (nzOnCancel)="handleCancel1()" (nzOnOk)="handleOk1()">
+    <ng-container *ngIf="!inline1; else inlineTemp">
         <div>
-            <div id="{{editorId}}" [innerHTML]="safeContent" style="outline: none;"></div>
+            <div id="{{editorId1}}" [innerHTML]="safeContent" style="outline: none;"></div>
         </div>
     </ng-container>
     
     <ng-template #inlineTemp>
         <div class="ant-input" style="height: auto;">
-            <div id="{{editorId}}" [innerHTML]="safeContent" style="outline: none;"></div>
+            <div id="{{editorId1}}" [innerHTML]="safeContent" style="outline: none;"></div>
+        </div>
+    </ng-template>
+</nz-modal>
+
+<button nz-button [nzType]="'primary'" (click)="showModal2()"><span>Show Modal 2</span></button>
+<nz-modal *ngIf="isVisible2" [nzVisible]="true" nzTitle="The first Modal" (nzOnCancel)="handleCancel2()" (nzOnOk)="handleOk2()">
+    <ng-container *ngIf="!inline2; else inlineTemp">
+        <div>
+            <div id="{{editorId2}}" [innerHTML]="safeContent" style="outline: none;"></div>
+        </div>
+    </ng-container>
+    
+    <ng-template #inlineTemp>
+        <div class="ant-input" style="height: auto;">
+            <div id="{{editorId2}}" [innerHTML]="safeContent"></div>
         </div>
     </ng-template>
 </nz-modal>

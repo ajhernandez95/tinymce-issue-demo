@@ -10,13 +10,17 @@ declare const tinymce: any;
   styleUrls: ['./tinymce.component.scss']
 })
 export class TinymceComponent implements OnInit {
-  isVisible: boolean = false;
-  editorInitConfig:any;
-  editorId: string = 'tinymceEditor123';
+  isVisible1: boolean = false;
+  isVisible2: boolean = false;
+  editorInitConfig1:any;
+  editorInitConfig2:any;
+  editorId1: string = 'tinymceEditor123';
+  editorId2: string = 'tinymceEditor456';
   minHeight = 200;
   initialContent = '<p>testing</p>';
   safeContent:any;
-  inline = false;
+  inline1 = false;
+  inline2 = true;
 
   constructor(
     private sanitizer: DomSanitizer
@@ -28,8 +32,8 @@ export class TinymceComponent implements OnInit {
 
     // default config
 		var self = this;
-		this.editorInitConfig = {
-      selector: 'div#'+this.editorId,
+		this.editorInitConfig1 = {
+      selector: 'div#'+this.editorId1,
       setup: function(editor) {
 				console.log('setting up')
 				
@@ -40,7 +44,7 @@ export class TinymceComponent implements OnInit {
 			height: 150,
 			base_url: '/tinymce',
 			suffix: '.min',
-			inline: this.inline,
+			inline: this.inline1,
 			statusbar: false,
 			browser_spellcheck: true,
 			max_width: '200px',
@@ -50,7 +54,7 @@ export class TinymceComponent implements OnInit {
 			relative_urls:false,
 			remove_script_host:false,
 			contextmenu: false,
-			plugins: 'image link lists save media autolink hr paste',
+			plugins: 'image link lists save media autolink hr paste quickbars',
 			default_link_target: "_blank",
 			link_assume_external_targets: 'http',
 			toolbar: 'formatselect | bold italic underline forecolor backcolor | bullist numlist outdent indent hr | link image media',
@@ -62,51 +66,108 @@ export class TinymceComponent implements OnInit {
 					{ inline: 'span', styles: { fontWeight: 'bold' } },
 					{ inline: 'b', remove: 'all' }
 				],
+			}
+    };
+
+    this.editorInitConfig2 = {
+      selector: 'div#'+this.editorId1,
+      setup: function(editor) {
+				console.log('setting up')
+				
+				editor.on('init', function(e) {
+				  console.log('Init!!!')
+				});
 			},
-			// init_instance_callback: function (editor) {
-			// 	editor.on('Change', function (e) {
-			// 		self.tinymceChange();
-			// 	});
-			// 	editor.on('KeyUp', function (e) {
-			// 		setTimeout(() => {
-			// 			self.tinymceChange();
-			// 		},500)
-			// 	});
-			// }
-		};
+			height: 150,
+			base_url: '/tinymce',
+			suffix: '.min',
+			inline: this.inline2,
+			statusbar: false,
+			browser_spellcheck: true,
+			max_width: '200px',
+			images_upload_credentials: false,
+			menubar: false,
+			convert_urls:true,
+			relative_urls:false,
+			remove_script_host:false,
+			contextmenu: false,
+			plugins: 'image link lists save media autolink hr paste quickbars',
+			default_link_target: "_blank",
+			link_assume_external_targets: 'http',
+			toolbar: 'formatselect | bold italic underline forecolor backcolor | bullist numlist outdent indent hr | link image media',
+			formats: {
+				underline: { inline: 'u', exact: true },
+				italic: { inline: 'i', exact: true },
+				bold: [
+					{ inline: 'strong', remove: 'all' },
+					{ inline: 'span', styles: { fontWeight: 'bold' } },
+					{ inline: 'b', remove: 'all' }
+				],
+			}
+    };
+    
   }
 
-  setupEditor() {
+  setupEditor1() {
     console.log('setup called')
 
 		var self = this;
 		setTimeout(function() {
-			var oldEditor = tinymce.get(self.editorId);
+			var oldEditor = tinymce.get(self.editorId1);
       if(oldEditor) { oldEditor.remove(); }
-      console.log(tinymce, self.editorInitConfig)
-      tinymce.init(self.editorInitConfig);
+      console.log(tinymce, self.editorInitConfig1)
+      tinymce.init(self.editorInitConfig1);
       console.log('after init')
 			setTimeout(function() {
-        let elem = document.getElementById(self.editorId);
+        let elem = document.getElementById(self.editorId1);
         console.log(elem)
+				if(elem) { elem.style.minHeight = self.minHeight+"px"; }
+			});
+		});
+
+  }
+  
+  setupEditor2() {
+
+		var self = this;
+		setTimeout(function() {
+			var oldEditor = tinymce.get(self.editorId2);
+      if(oldEditor) { oldEditor.remove(); }
+      tinymce.init(self.editorInitConfig2);
+			setTimeout(function() {
+        let elem = document.getElementById(self.editorId2);
 				if(elem) { elem.style.minHeight = self.minHeight+"px"; }
 			});
 		});
 
 	}
 
-  showModal() {
-    this.isVisible = true;
+  showModal1() {
+    this.isVisible1 = true;
 
-		this.setupEditor();
+		this.setupEditor1();
   }
 
-  handleOk() {
-    this.isVisible = false;
+  handleOk1() {
+    this.isVisible1 = false;
   }
 
-  handleCancel() {
-    this.handleOk();
+  handleCancel1() {
+    this.handleOk1();
+  }
+
+  showModal2() {
+    this.isVisible1 = true;
+
+		this.setupEditor2();
+  }
+
+  handleOk2() {
+    this.isVisible2 = false;
+  }
+
+  handleCancel2() {
+    this.handleOk2();
   }
 
 }
