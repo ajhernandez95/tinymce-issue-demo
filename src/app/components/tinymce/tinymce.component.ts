@@ -1,5 +1,6 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnInit, ViewChild} from '@angular/core';
 import { DomSanitizer, SafeResourceUrl, SafeUrl} from '@angular/platform-browser';
+import {NzModalComponent} from "ng-zorro-antd";
 
 
 declare const tinymce: any;
@@ -21,6 +22,7 @@ export class TinymceComponent implements OnInit {
   safeContent:any;
   inline1 = false;
   inline2 = true;
+  @ViewChild('modalComponent') modalComponent: NzModalComponent;
 
   constructor(
     private sanitizer: DomSanitizer
@@ -36,7 +38,7 @@ export class TinymceComponent implements OnInit {
       selector: 'div#'+this.editorId1,
       setup: function(editor) {
 				console.log('setting up')
-				
+
 				editor.on('init', function(e) {
 				  console.log('Init!!!')
 				});
@@ -73,7 +75,7 @@ export class TinymceComponent implements OnInit {
       selector: 'div#'+this.editorId1,
       setup: function(editor) {
 				console.log('setting up')
-				
+
 				editor.on('init', function(e) {
 				  console.log('Init!!!')
 				});
@@ -105,7 +107,7 @@ export class TinymceComponent implements OnInit {
 				],
 			}
     };
-    
+
   }
 
   setupEditor1() {
@@ -126,7 +128,7 @@ export class TinymceComponent implements OnInit {
 		});
 
   }
-  
+
   setupEditor2() {
 
 		var self = this;
@@ -144,10 +146,17 @@ export class TinymceComponent implements OnInit {
 
   showModal1() {
     this.isVisible1 = true;
-
 		this.setupEditor1();
   }
 
+  modal1Opened(): void {
+    (this.modalComponent.getModalRef().containerInstance as any).focusTrap.destroy();
+  }
+
+  modal1Closed(): void {
+    const oldEditor = tinymce.get(this.editorId1);
+    if(oldEditor) { oldEditor.remove(); }
+  }
   handleOk1() {
     this.isVisible1 = false;
   }

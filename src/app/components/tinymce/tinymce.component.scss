@@ -1,0 +1,5 @@
+::ng-deep {
+  .tox.tox-tinymce-inline, .tox.tox-tinymce-aux {
+    z-index: 1001; // at least one more than NG-ZORRO
+  }
+}
