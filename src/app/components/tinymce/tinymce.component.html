@@ -3,13 +3,13 @@
 <p>Another issue is when a text editor is set to inline inside a modal the pop up toolbar disappears anytime you try to click on an option. Here in this quick demo the toolbar is thrown behind the modal which is not an issue in our actual code but has happened here.</p>
 
 <button nz-button [nzType]="'primary'" (click)="showModal1()"><span>Show Modal 1</span></button>
-<nz-modal *ngIf="isVisible1" [nzVisible]="true" nzTitle="The first Modal" (nzOnCancel)="handleCancel1()" (nzOnOk)="handleOk1()">
+<nz-modal #modalComponent *ngIf="isVisible1" (nzAfterOpen)="modal1Opened()" (nzAfterClose)="modal1Closed()" [nzVisible]="true" [nzClosable]="false" [nzAutofocus]="null" nzTitle="The first Modal" (nzOnCancel)="handleCancel1()" (nzOnOk)="handleOk1()">
     <ng-container *ngIf="!inline1; else inlineTemp">
         <div>
             <div id="{{editorId1}}" [innerHTML]="safeContent" style="outline: none;"></div>
         </div>
     </ng-container>
-    
+
     <ng-template #inlineTemp>
         <div class="ant-input" style="height: auto;">
             <div id="{{editorId1}}" [innerHTML]="safeContent" style="outline: none;"></div>
@@ -24,7 +24,7 @@
             <div id="{{editorId2}}" [innerHTML]="safeContent" style="outline: none;"></div>
         </div>
     </ng-container>
-    
+
     <ng-template #inlineTemp>
         <div class="ant-input" style="height: auto;">
             <div id="{{editorId2}}" [innerHTML]="safeContent"></div>
